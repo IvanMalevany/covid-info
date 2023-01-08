@@ -2,6 +2,9 @@
 
 Project for represent covid statistics. Written with React + Typescript.
 
+## Try it at 
+[http://cta.malevany.ru/](http://cta.malevany.ru/)
+
 ## Available Scripts
 
 Start for local development:
