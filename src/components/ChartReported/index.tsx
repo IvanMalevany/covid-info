@@ -8,7 +8,6 @@ import Loader from "../UI/Loader";
 import ChartControlsTitle from "../ChartControlsTitle";
 import ChartCover from "../ChartCover";
 
-
 const Index = ({chartData, selectedCountry}: ChartDataPropsWithCounties) => {
     const [isUpdate, setIsUpdate] = useState<boolean>(false)
     const [chartReport, setChartReport] = useState<null | any>(null)

@@ -24,7 +24,7 @@ const Index: FC<ChartDataPropsWithCounties> = ({chartData, selectedCountry}) => 
 
     useEffect(() => {
         setIsUpdate(true)
-        const report = ReportService.getRankedCases(chartData.reportData, paramType, +topCountries)
+        const report = ReportService.getRankedCases(chartData.reportData, paramType, +topCountries, selectedCountry)
         setChartReport(report)
         setTimeout(() => setIsUpdate(false))
     }, [chartData, paramType, topCountries, selectedCountry])

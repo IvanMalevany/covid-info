@@ -1,27 +1,20 @@
-import React from 'react';
+import React, {FC, memo} from 'react';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {TwoWaySwitch} from "../UI/TwoWaySwitch";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import Select, {SelectChangeEvent} from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormGroup from "@mui/material/FormGroup";
+import {RankedChartControlParams} from "../../types/ChartControls";
 
-interface ControlsParams {
-    paramType: string;
-    onParamTypeChange: () => void;
-    topCountries: string;
-    onChangeTopCountries: (event: SelectChangeEvent) => void;
-}
-
-const Controls = ({paramType, onParamTypeChange, topCountries, onChangeTopCountries}: ControlsParams) => {
+const Controls: FC<RankedChartControlParams> = ({paramType, onParamTypeChange, topCountries, onChangeTopCountries}) => {
     return (
         <FormGroup sx={{gap: 3}}>
             <Stack direction="row" spacing={1} alignItems="center">
                 <Typography>Total confirmed cases</Typography>
                 <TwoWaySwitch
-                    inputProps={{ 'aria-label': 'Two way switch' }}
                     checked={paramType === 'total_deaths'}
                     onChange={onParamTypeChange}
                 />
@@ -45,4 +38,4 @@ const Controls = ({paramType, onParamTypeChange, topCountries, onChangeTopCountr
     );
 };
 
-export default Controls;
+export default memo(Controls);

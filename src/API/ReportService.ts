@@ -14,6 +14,63 @@ import axios from "axios";
 export default class ReportService {
 
     static async loadReport (): Promise<ReportPlain> {
+        // sample for better performance during development
+        // if (process.env.NODE_ENV === 'development') {
+        //     return {
+        //         AUT: {
+        //             location:"Austria",
+        //             data: [
+        //                 {
+        //                     "date": "2020-03-31",
+        //                     "total_cases": 9264,
+        //                     "new_cases": 547,
+        //                     "total_deaths": 134,
+        //                     "new_deaths": 14,
+        //                 },
+        //                 {
+        //                     "date": "2021-08-05",
+        //                     "total_cases": 656550,
+        //                     "new_cases": 595,
+        //                     "total_deaths": 13150,
+        //                     "new_deaths": 3
+        //                 },
+        //                 {
+        //                     "date": "2022-09-06",
+        //                     "total_cases": 4980628,
+        //                     "new_cases": 2791,
+        //                     "total_deaths": 20671,
+        //                     "new_deaths": 3,
+        //                 }
+        //             ]
+        //         },
+        //         BEL: {
+        //             location:"Belgium",
+        //             data: [
+        //                 {
+        //                     "date": "2020-08-27",
+        //                     "total_cases": 83500,
+        //                     "new_cases": 470,
+        //                     "total_deaths": 9884,
+        //                     "new_deaths": 5,
+        //                 },
+        //                 {
+        //                     "date": "2021-10-05",
+        //                     "total_cases": 1253587,
+        //                     "new_cases": 1730,
+        //                     "total_deaths": 25640,
+        //                     "new_deaths": 8
+        //                 },
+        //                 {
+        //                     "date": "2022-08-17",
+        //                     "total_cases": 4460582,
+        //                     "new_cases": 0,
+        //                     "total_deaths": 32410,
+        //                     "new_deaths": 0
+        //                 }
+        //             ]
+        //         }
+        //     }
+        // }
         const data = await axios.get('https://covid.ourworldindata.org/data/owid-covid-data.json')
         return data.data as ReportPlain
     }
@@ -76,7 +133,7 @@ export default class ReportService {
         })
     }
 
-    static getRankedCases(countries: CountryReportPrepared[], paramType: BarParamType, topCount: number) {
+    static getRankedCases(countries: CountryReportPrepared[], paramType: BarParamType, topCount: number, selectedCountry: SelectedCountry) {
         const report = countries.map(country => {
             const days = Object.entries(country.reportByDays)
             const lastDayReport = days[days.length - 1] || [null, {}]
@@ -87,6 +144,14 @@ export default class ReportService {
             }
         })
         report.sort((c1, c2) => c2.data - c1.data)
-        return report.length > topCount? report.slice(0, topCount - 1) : report
+        if (report.length > topCount) {
+            let r = report.slice(0, topCount)
+            if (selectedCountry) {
+                const isFind = report.find(c => c.key === selectedCountry.label)
+                if (isFind) r.push(isFind)
+            }
+            return r
+        }
+        return report
     }
 }

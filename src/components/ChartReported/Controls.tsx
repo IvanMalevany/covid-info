@@ -1,23 +1,16 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import {TwoWaySwitch} from "../UI/TwoWaySwitch";
 import FormGroup from "@mui/material/FormGroup";
+import {ReportedChartControlParams} from "../../types/ChartControls";
 
-interface ControlsParams {
-    paramType: string;
-    onParamTypeChange: () => void;
-    countType: string;
-    onCountTypeChange: () => void;
-}
-
-const Controls: FC<ControlsParams> = ({paramType, onParamTypeChange, countType, onCountTypeChange}) => {
+const Controls: FC<ReportedChartControlParams> = ({paramType, onParamTypeChange, countType, onCountTypeChange}) => {
     return (
         <FormGroup sx={{gap: 2}}>
             <Stack direction="row" spacing={1} alignItems="center">
                 <Typography>Confirmed cases</Typography>
                 <TwoWaySwitch
-                    inputProps={{ 'aria-label': 'Two way switch' }}
                     checked={paramType === 'deaths'}
                     onChange={onParamTypeChange}
                 />
@@ -26,7 +19,6 @@ const Controls: FC<ControlsParams> = ({paramType, onParamTypeChange, countType, 
             <Stack direction="row" spacing={1} alignItems="center">
                 <Typography>New values</Typography>
                 <TwoWaySwitch
-                    inputProps={{ 'aria-label': 'Two way switch' }}
                     checked={countType === 'total'}
                     onChange={onCountTypeChange}
                 />
@@ -36,4 +28,4 @@ const Controls: FC<ControlsParams> = ({paramType, onParamTypeChange, countType, 
     );
 };
 
-export default Controls;
+export default memo(Controls);
